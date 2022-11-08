@@ -1,0 +1,28 @@
+{
+  "name": "tiklens",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "challenge": "ts-node src/scripts/auth/index.ts",
+    "profile": "ts-node src/scripts/profile/index.ts",
+    "stats": "ts-node src/scripts/profile/stats.ts",
+    "publish": "ts-node src/scripts/publication/index.ts"
+  },
+  "keywords": [],
+  "author": "ArturVargas",
+  "license": "Apache License, Version 2.0",
+  "dependencies": {
+    "@urql/core": "^3.0.5",
+    "graphql": "^15.8.0",
+    "isomorphic-unfetch": "^3.1.0",
+    "web3": "^1.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  }
+}
