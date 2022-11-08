@@ -152,13 +152,46 @@ Ticklens.GetChallenge(address)
     "challenge": {
       "text": "I want to authenticate with lens and generate a JWT token at timestamp - 1645102996447. Auth request id - 6a01ffa229be678f03d705eb9b4c454554e2cef4be2c273fc0c9ed5be8762625"
     }
-  },
-  "operation": {
-    ...
   }
 }
 ```
 
+## Sign Challenge
+
+Once you recieved a challenge from Lens' server, you can sign the challenge using your wallet and send it back to the server with your address.
+
+In return, you will get a access token and refresh token from the server.
+
+- The access token will be used to authenticate the user and the refresh token will be used to generate a new access token when the old one expires.
+
+- The `access token` will expire after 30 minutes and the `refresh token` will expire after 1 days.
+
+### API Operation
+
+Here is an example of how to send a signed challenge to the server: send a signed challenge to the server:
+
+```js
+
+let address = "0x123...678";
+
+Ticklens.Authenticate(address, signedMessage)
+  .then(response) => {
+    console.log(response);
+  }
+```
+
+### API Response
+
+```json
+{
+  "data": {
+    "authenticate": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjB4YjE5QzI4OTBjZjk0N0FEM2YwYjdkN0U1QTlmZkJjZTM2ZDNmOWJkMiIsInJvbGUiOiJub3JtYWwiLCJpYXQiOjE2NDUxMDQyMzEsImV4cCI6MTY0NTEwNjAzMX0.lwLlo3UBxjNGn5D_W25oh2rg2I_ZS3KVuU9n7dctGIU",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjB4YjE5QzI4OTBjZjk0N0FEM2YwYjdkN0U1QTlmZkJjZTM2ZDNmOWJkMiIsInJvbGUiOiJyZWZyZXNoIiwiaWF0IjoxNjQ1MTA0MjMxLCJleHAiOjE2NDUxOTA2MzF9.2Tdts-dLVWgTLXmah8cfzNx7sGLFtMBY7Z9VXcn2ZpE"
+    }
+  }
+}
+```
 <!-- ROADMAP -->
 ## Roadmap
 
