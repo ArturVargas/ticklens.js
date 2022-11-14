@@ -21,6 +21,7 @@ import {
   PublishEvent,
   CreateTickets,
 } from "./scripts/publication";
+import { AddReaction, RemoveReaction } from "./scripts/reactions";
 
 export {
   GetChallenge,
@@ -40,4 +41,6 @@ export {
   GetMetadataValidation,
   PublishEvent,
   CreateTickets,
+  AddReaction,
+  RemoveReaction,
 };

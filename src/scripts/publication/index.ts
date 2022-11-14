@@ -1,6 +1,10 @@
 import { client } from "../../config/Client";
 import { VALIDATE_METADATA } from "../../lensAPI/Querys";
-import { CREATE_POST_TYPED_DATA } from "../../lensAPI/Mutations";
+import {
+  CREATE_POST_TYPED_DATA,
+  CREATE_POST_MIRROR,
+  CREATE_COMMENT,
+} from "../../lensAPI/Mutations";
 
 interface CollectModules {
   // this module works to allowing anyone collect publications with no fees
@@ -48,7 +52,6 @@ const GetMetadataValidation = async (metadata: object): Promise<any> => {
 
 // it's a post with no collect module announcing the event
 const PublishEvent = async (event: PostEvent, token: string): Promise<any> => {
-  console.log(token);
   try {
     const { data, operation } = await client
       .mutation(
@@ -79,7 +82,6 @@ const PublishEvent = async (event: PostEvent, token: string): Promise<any> => {
 
 // it's a post with limited fee collect module
 const CreateTickets = async (ticketsData: any, token: string): Promise<any> => {
-  console.log(token);
   try {
     const { data, operation } = await client
       .mutation(
@@ -123,11 +125,87 @@ const CreateTickets = async (ticketsData: any, token: string): Promise<any> => {
   }
 };
 
+const CreatePostMirror = async (
+  profileId: string,
+  publicationId: string,
+  referenceModule: Object,
+  token: string
+): Promise<any> => {
+  try {
+    const { data, operation } = await client
+      .mutation(
+        CREATE_POST_MIRROR,
+        {
+          request: {
+            profileId,
+            publicationId,
+            referenceModule,
+          },
+        },
+        {
+          fetchOptions: {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          },
+        }
+      )
+      .toPromise();
+
+    return { data, operation };
+  } catch (error) {
+    console.log("!!! ERROR: ", error);
+    return error;
+  }
+};
+
+const CreateComment = async (
+  profileId: string,
+  publicationId: string,
+  contentURI: string,
+  referenceModule: Object,
+  token: string
+): Promise<any> => {
+  try {
+    const { data, operation } = await client
+      .mutation(
+        CREATE_COMMENT,
+        {
+          request: {
+            profileId,
+            publicationId,
+            contentURI,
+            collectModule: { revertCollectModule: true },
+            referenceModule,
+          },
+        },
+        {
+          fetchOptions: {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          },
+        }
+      )
+      .toPromise();
+
+    return { data, operation };
+  } catch (error) {
+    console.log("!!! ERROR: ", error);
+    return error;
+  }
+};
+
 // @TODO
-// Mirror for the followers - para que el asistente al evento pueda compartir las publicaciones.
-// Comment for the followers - para que el asistente al evento pueda comentar las publicaciones.
-// Reactions
 // Publication Revenue
 // Reporting
 
-export { GetMetadataValidation, PublishEvent, CreateTickets };
+export {
+  GetMetadataValidation,
+  PublishEvent,
+  CreateTickets,
+  CreatePostMirror,
+  CreateComment,
+};
