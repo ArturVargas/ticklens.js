@@ -23,7 +23,6 @@ import {
 } from "./scripts/publication";
 import { AddReaction, RemoveReaction } from "./scripts/reactions";
 
-console.log("SRC Holi");
 export {
   GetChallenge,
   Authenticate,
