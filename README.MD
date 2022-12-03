@@ -192,6 +192,244 @@ Ticklens.Authenticate(address, signedMessage)
   }
 }
 ```
+
+## Publication
+
+Publications are the lifeblood of the Lens Protocol. They are all of the original content, comments, and mirrors produced by creators, curators, and users alike. Publications come in three primary types: posts, comments, and mirrors. Posts are the base object, with mirror and comment providing additional functionality.
+
+## Metadata Standards
+
+All Metadata standards we set are supported on OpenSea and other marketplaces.
+[See more](https://docs.lens.xyz/docs/metadata-standards)
+
+### API Operation
+
+Some developers get confused when getting started on what is valid metadata and what is not. They miss a property or pass in a wrong type which is hard to debug if you do this. This endpoint allows you to pass in the metadata and see if it's valid, if it is not valid it tells you why.
+
+```js
+
+const metadata = {...};
+
+Ticklens.GetMetadataValidation(metadata)
+  .then(response) => {
+    console.log(response);
+  }
+```
+
+### API Response Success
+
+```json
+{
+  "data": {
+    "validatePublicationMetadata": {
+      "valid": true,
+      "reason": null
+    }
+  }
+}
+```
+
+### API Response Fail
+
+```json
+{
+  "data": {
+    "validatePublicationMetadata": {
+      "valid": false,
+      "reason": "Invalid metadata version - should be 2.0.0"
+    }
+  }
+}
+```
+
+## Publish an Event
+
+It's a post with no collect module announcing the event
+
+### API Operation
+
+Here is an example of how to create an event (Post):
+
+```js
+
+const eventData = {
+    profileId: "0x03",
+    contentURI: "ipfs://QmPogtffEF3oAbKERsoR4Ky8aTvLgBF5totp5AuF8YN6vl",
+    collectModule: {
+      revertCollectModule: true
+    },
+    referenceModule: {
+      followerOnlyReferenceModule: false
+    }
+  }
+
+Ticklens.PublishEvent(eventData, accessToken)
+  .then(response) => {
+    console.log(response);
+  }
+```
+
+### API Response
+
+```json
+{
+  "data": {
+    "createPostTypedData": {
+      "id": "18ad653a-af18-4be5-9246-06be8dcaf3f9",
+      "expiresAt": "2022-02-21T13:00:37.000Z",
+      "typedData": {
+        "types": {
+          "PostWithSig": [
+            {
+              "name": "profileId",
+              "type": "uint256"
+            },
+            {
+              "name": "contentURI",
+              "type": "string"
+            },
+            {
+              "name": "collectModule",
+              "type": "address"
+            },
+            {
+              "name": "collectModuleInitData",
+              "type": "bytes"
+            },
+            {
+              "name": "referenceModule",
+              "type": "address"
+            },
+            {
+              "name": "referenceModuleInitData",
+              "type": "bytes"
+            },
+            {
+              "name": "nonce",
+              "type": "uint256"
+            },
+            {
+              "name": "deadline",
+              "type": "uint256"
+            }
+          ]
+        },
+        "domain": {
+          "name": "Lens Protocol Profile",
+          "chainId": 80001,
+          "version": "1",
+          "verifyingContract": "0x23C1ce2b0865406955Da08F1D31c13fcc3f72A3a"
+        },
+        "value": {
+          "nonce": 0,
+          "deadline": 1645448437,
+          "profileId": "0x03",
+          "contentURI": "ipfs://QmPogtffEF3oAbKERsoR4Ky8aTvLgBF5totp5AuF8YN6vl.json",
+          "collectModule": "0x45B7907d5c5d2aF9157898601B7B3e18670891c3",
+          "collectModuleInitData": "0x",
+          "referenceModule": "0x0000000000000000000000000000000000000000",
+          "referenceModuleInitData": "0x"
+        }
+      }
+    }
+  }
+}
+```
+
+## Create Tickets from the event
+
+It's a post with limited fee collect module that works as a ticket.
+
+### API Operation
+
+Here is an example of how to create a batch of tickets(Post):
+
+```js
+
+const ticketsData = {
+    profileId: "0x03",
+    contentURI: "ipfs://QmPogtffEF3oAbKERsoR4Ky8aTvLgBF5totp5AuF8YN6vl",
+    maxTickets: 100, // max number of tickets to collect
+    currency: "0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e", // USDC
+    ticketPrice: "20",
+    recipient: "0x123...678", // user wallet
+    referralFee: 1, // 0 to 100 in percentage
+    followerOnly: true, // true by default
+  }
+
+Ticklens.CreateTickets(ticketsData, accessToken)
+  .then(response) => {
+    console.log(response);
+  }
+```
+
+### API Response
+
+```json
+{
+  "data": {
+    "createPostTypedData": {
+      "id": "18ad653a-af18-4be5-9246-06be8dcaf3f9",
+      "expiresAt": "2022-02-21T13:00:37.000Z",
+      "typedData": {
+        "types": {
+          "PostWithSig": [
+            {
+              "name": "profileId",
+              "type": "uint256"
+            },
+            {
+              "name": "contentURI",
+              "type": "string"
+            },
+            {
+              "name": "collectModule",
+              "type": "address"
+            },
+            {
+              "name": "collectModuleInitData",
+              "type": "bytes"
+            },
+            {
+              "name": "referenceModule",
+              "type": "address"
+            },
+            {
+              "name": "referenceModuleInitData",
+              "type": "bytes"
+            },
+            {
+              "name": "nonce",
+              "type": "uint256"
+            },
+            {
+              "name": "deadline",
+              "type": "uint256"
+            }
+          ]
+        },
+        "domain": {
+          "name": "Lens Protocol Profile",
+          "chainId": 80001,
+          "version": "1",
+          "verifyingContract": "0x23C1ce2b0865406955Da08F1D31c13fcc3f72A3a"
+        },
+        "value": {
+          "nonce": 0,
+          "deadline": 1645448437,
+          "profileId": "0x03",
+          "contentURI": "ipfs://QmPogtffEF3oAbKERsoR4Ky8aTvLgBF5totp5AuF8YN6vl.json",
+          "collectModule": "0x45B7907d5c5d2aF9157898601B7B3e18670891c3",
+          "collectModuleInitData": "0x",
+          "referenceModule": "0x0000000000000000000000000000000000000000",
+          "referenceModuleInitData": "0x"
+        }
+      }
+    }
+  }
+}
+```
+
 <!-- ROADMAP -->
 ## Roadmap
 
