@@ -22,6 +22,7 @@ import {
   CreateTickets,
 } from "./scripts/publication";
 import { AddReaction, RemoveReaction } from "./scripts/reactions";
+import { Collect } from "./scripts/collect_nft";
 
 export {
   GetChallenge,
@@ -43,4 +44,5 @@ export {
   CreateTickets,
   AddReaction,
   RemoveReaction,
+  Collect,
 };
