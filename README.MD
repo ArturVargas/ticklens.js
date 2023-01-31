@@ -430,6 +430,57 @@ Ticklens.CreateTickets(ticketsData, accessToken)
 }
 ```
 
+## Collect Tickets from the event
+
+For collecting we interact with the proxy smart contract, and that mints a ticket for the user.  
+
+where:  
+* chainId: number, proxy coontract on 80001(mumbai), 137(polygon).  
+* profileId: number, Id to user profile that you want to collect nft.
+* publicationId: number, Id of  publication that you want to collect.
+* data: array, The arbitrary data to pass to the collect module.
+* privateKey:string, The private key  wallet from the user who wants to make a collect.
+
+[see more](https://docs.lens.xyz/docs/collecting-publications)
+
+### API Operation
+
+Here is an example of how to collect tickets:
+
+```js
+
+Ticklens.Collect(8001, 2, 19, [], "n1c3tryTry494inch4d...").then((receipt)  => {
+  console.log(receipt)
+})
+```
+
+### API Response
+
+```json
+{
+  "blockHash": "0xd123lma345...",
+  "blockNumber": 12345,
+  "contractAddress": "0x12345",
+  "from": "0x12345",
+  "gasUsed": 194082,
+  "logs": [
+    {
+      "address": "0x60Ae865ee4C725cd04353b5AAb364553f56ceF82",
+      "topics": [...],
+      "data": "0x0000...",
+      "blockNumber": 12345,
+      .
+      .
+      .
+    }
+  ],
+  "status": true,
+  "to": "0x60ae865ee4c725cd04353b5aab364553f56cef82",
+  "transactionHash": "0xabc123...",
+  "transactionIndex": 3,
+  "type": "0x0"
+}
+```
 <!-- ROADMAP -->
 ## Roadmap
 
