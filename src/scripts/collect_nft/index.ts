@@ -5,6 +5,7 @@ import { LENS_HUB_ADDRESSES } from "../utils/constants";
 export const web3 = new Web3("https://rpc-mumbai.maticvigil.com");
 
 export const Collect = async (
+  chainId: number = 80001,
   profileId: number,
   publicationId: number,
   data: any,
@@ -13,11 +14,11 @@ export const Collect = async (
   try {
     const contract = new web3.eth.Contract(
       LensHubAbi as any,
-      LENS_HUB_ADDRESSES[80001]
+      LENS_HUB_ADDRESSES[chainId]
     );
 
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-    console.log("Account ", account);
+
     web3.eth.accounts.wallet.add(account);
     web3.eth.defaultAccount = account.address;
 
@@ -30,31 +31,24 @@ export const Collect = async (
     const encodeCollect = txCollect.encodeABI();
 
     const gasPrice = await web3.eth.getGasPrice();
-    console.log("GAS_PRICE ", gasPrice);
+    const gasCost = await web3.eth.estimateGas({
+      to: LENS_HUB_ADDRESSES[chainId],
+      data: encodeCollect,
+    });
 
-    console.log("Here is ok 3!");
-
-    const gasCost = await txCollect.estimateGas({ from: account.address });
-
-    // const [gasPrice, gasCost] = await Promise.all([
-    //   web3.eth.getGasPrice(),
-    //   txCollect.estimateGas({ from: account.address }),
-    // ]);
-
-    console.log("Here is ok 4!");
     const txData = {
       from: account.address,
-      to: LENS_HUB_ADDRESSES[80001],
+      to: LENS_HUB_ADDRESSES[chainId],
       data: encodeCollect,
       gas: gasCost,
       gasPrice,
     };
-    console.log("Here is ok 5!");
-    const receipt = await web3.eth.sendTransaction(txData);
-    console.log("--->>> ", receipt);
+
+    await web3.eth.sendTransaction(txData).on("receipt", (receipt) => {
+      return { receipt };
+    });
   } catch (error) {
     console.log("[ERROR] !! ", error);
+    return { error };
   }
 };
-
-Collect(1, 1, [], "your_private_key");
