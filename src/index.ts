@@ -23,6 +23,7 @@ import {
 } from "./scripts/publication";
 import { AddReaction, RemoveReaction } from "./scripts/reactions";
 import { Collect } from "./scripts/collect_nft";
+import { Transfer } from "./scripts/transfer_nft";
 
 export {
   GetChallenge,
@@ -45,4 +46,5 @@ export {
   AddReaction,
   RemoveReaction,
   Collect,
+  Transfer,
 };
