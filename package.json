@@ -17,7 +17,8 @@
     "stats": "ts-node src/scripts/profile/stats.ts",
     "publish": "ts-node src/scripts/publication/index.ts",
     "arweaveWallet": "ts-node src/scripts/utils/index.ts",
-    "lenshub": "ts-node src/scripts/collect_nft/index.ts"
+    "lenshub": "ts-node src/scripts/collect_nft/index.ts",
+    "lenstransfer": "ts-node src/scripts/transfer_nft/index.ts"
   },
   "keywords": [],
   "author": "ArturVargas",

@@ -1,20 +1,16 @@
 import Web3 from "web3";
-import { LensHubAbi } from "../../config/LensHub";
-import { LENS_HUB_ADDRESSES } from "../utils/constants";
+import { Collect } from "../../config/CollectNFT";
 
 export const web3 = new Web3("https://rpc-mumbai.maticvigil.com");
 
 export const Transfer = async (
-  chainId: number,
+  nft_address: string,
   to: string,
   tokenId: number,
   privateKey: string
 ): Promise<any> => {
   try {
-    const contract = new web3.eth.Contract(
-      LensHubAbi as any,
-      LENS_HUB_ADDRESSES[chainId]
-    );
+    const contract = new web3.eth.Contract(Collect as any, nft_address);
 
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 
@@ -31,13 +27,13 @@ export const Transfer = async (
 
     const gasPrice = await web3.eth.getGasPrice();
     const gasCost = await web3.eth.estimateGas({
-      to: LENS_HUB_ADDRESSES[chainId],
+      to: nft_address,
       data: encodeTransfer,
     });
 
     const txData = {
       from: account.address,
-      to: LENS_HUB_ADDRESSES[chainId],
+      to: nft_address,
       data: encodeTransfer,
       gas: gasCost,
       gasPrice,
