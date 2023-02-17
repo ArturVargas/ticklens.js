@@ -435,7 +435,7 @@ Ticklens.CreateTickets(ticketsData, accessToken)
 For collecting we interact with the proxy smart contract, and that mints a ticket for the user.  
 
 where:  
-* chainId: number, proxy coontract on 80001(mumbai), 137(polygon).  
+* chainId: number, proxy contract on 80001(mumbai), 137(polygon).  
 * profileId: number, Id to user profile that you want to collect nft.
 * publicationId: number, Id of  publication that you want to collect.
 * data: array, The arbitrary data to pass to the collect module.
@@ -450,6 +450,56 @@ Here is an example of how to collect tickets:
 ```js
 
 Ticklens.Collect(8001, 2, 19, [], "n1c3tryTry494inch4d...").then((receipt)  => {
+  console.log(receipt)
+})
+```
+
+### API Response
+
+```json
+{
+  "blockHash": "0xd123lma345...",
+  "blockNumber": 12345,
+  "contractAddress": "0x12345",
+  "from": "0x12345",
+  "gasUsed": 194082,
+  "logs": [
+    {
+      "address": "0x60Ae865ee4C725cd04353b5AAb364553f56ceF82",
+      "topics": [...],
+      "data": "0x0000...",
+      "blockNumber": 12345,
+      .
+      .
+      .
+    }
+  ],
+  "status": true,
+  "to": "0x60ae865ee4c725cd04353b5aab364553f56cef82",
+  "transactionHash": "0xabc123...",
+  "transactionIndex": 3,
+  "type": "0x0"
+}
+```
+
+## Transfer Tickets to another user
+
+Sometimes We want transfer our tickets to another account, we can do this using the transfer function.  
+
+where:  
+
+* nft_address: string, the address of the nft collection.
+* to: string, address that receive the nft.
+* tokenId: number, id of the nft token that we want transfer.
+  privateKey: string, private key of the current owner that hold the nft to sign transaction.
+
+### API Operation
+
+Here is an example of how to transfer tickets:
+
+```js
+
+Ticklens.Transfer("0x71038bd2D620AbF036E4b1E9a16CA0d628c45F1A", "0x60ae865ee4c725cd04353b5aab364553f56cef82", 1, "n1c3tryTry494inch4d...").then((receipt)  => {
   console.log(receipt)
 })
 ```
