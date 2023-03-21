@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import { Collect } from "../../config/CollectNFT";
 
-export const web3 = new Web3("https://rpc-mumbai.maticvigil.com");
+export const web3 = new Web3("https://polygon-rpc.com");
 
 export const Transfer = async (
   nft_address: string,

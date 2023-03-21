@@ -6,5 +6,5 @@ const env = {
 };
 
 export const client = createClient({
-  url: env.testnet,
+  url: env.mainnet,
 });

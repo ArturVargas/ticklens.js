@@ -2,7 +2,7 @@ import Web3 from "web3";
 import { LensHubAbi } from "../../config/LensHub";
 import { LENS_HUB_ADDRESSES } from "../utils/constants";
 
-export const web3 = new Web3("https://rpc-mumbai.maticvigil.com");
+export const web3 = new Web3("https://polygon-rpc.com");
 
 export const Collect = async (
   chainId: number = 80001,
