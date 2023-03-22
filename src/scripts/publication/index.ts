@@ -31,19 +31,20 @@ interface PostEvent {
   referenceModule: object;
 }
 
-const GetMetadataValidation = async (metadata: object): Promise<any> => {
+const GetMetadataValidation = async (metadata: any): Promise<any> => {
+ 
   try {
-    const { data, operation } = await client
+    const {data, operation} = await client
       .query(VALIDATE_METADATA, {
         request: {
           metadatav2: {
-            ...metadata,
+            ...metadata
           },
         },
       })
       .toPromise();
 
-    return { data, operation };
+    return  {data, operation} ;
   } catch (error) {
     console.log("!!! ERROR: ", error);
     return error;
@@ -83,7 +84,8 @@ const PublishEvent = async (event: PostEvent, token: string): Promise<any> => {
 // it's a post with limited fee collect module
 const CreateTickets = async (ticketsData: any, token: string): Promise<any> => {
   try {
-    const { data, operation } = await client
+   
+    const  data = await client
       .mutation(
         CREATE_POST_TYPED_DATA,
         {
@@ -117,8 +119,7 @@ const CreateTickets = async (ticketsData: any, token: string): Promise<any> => {
         }
       )
       .toPromise();
-
-    return { data, operation };
+    return   data ;
   } catch (error) {
     console.log("!!! ERROR: ", error);
     return error;
